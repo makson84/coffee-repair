@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ремонт кофемашин | Сервисный центр</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f5f0; color: #2c241a; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .header { background: #3e2a21; color: #fff; padding: 30px 0 20px; text-align: center; border-bottom: 5px solid #d4af37; }
+        .header h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.2rem; opacity: 0.9; }
+        .nav { background: #2c241a; padding: 12px 0; position: sticky; top: 0; z-index: 100; }
+        .nav .container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .nav a { color: #f0e6d8; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .nav a:hover { color: #d4af37; }
+        .section { padding: 50px 0; border-bottom: 1px solid #e2d9cf; }
+        .section-title { font-size: 2rem; margin-bottom: 30px; text-align: center; color: #3e2a21; position: relative; padding-bottom: 12px; }
+        .section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 3px; background: #d4af37; }
+        .about-text { max-width: 800px; margin: 0 auto; text-align: center; background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .features { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; }
+        .feature-item { background: #fff; padding: 20px; border-radius: 16px; flex: 1; min-width: 200px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .price-table-wrapper { overflow-x: auto; background: #fff; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); padding: 5px; }
+        .price-table { width: 100%; border-collapse: collapse; }
+        .price-table th, .price-table td { padding: 16px 12px; text-align: left; border-bottom: 1px solid #ede6dc; }
+        .price-table th { background-color: #3e2a21; color: white; }
+        .price-table tr:hover { background-color: #fef7ef; }
+        .price-table td:last-child, .price-table th:last-child { text-align: right; font-weight: 600; }
+        .note { margin-top: 20px; font-size: 0.9rem; color: #6b5a4a; text-align: center; background: #f0ebe4; padding: 12px; border-radius: 30px; }
+        .contacts { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; background: #fff; padding: 30px; border-radius: 24px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .contact-info { flex: 1; }
+        .contact-info p { margin-bottom: 15px; font-size: 1.1rem; }
+        .contact-form { flex: 1; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd2c4; border-radius: 30px; font-family: inherit; background: #fefaf5; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #d4af37; box-shadow: 0 0 0 2px rgba(212,175,55,0.2); }
+        .btn { background: #3e2a21; color: white; border: none; padding: 12px 28px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #d4af37; color: #2c241a; }
+        .footer { background: #2c241a; color: #ccc; text-align: center; padding: 25px 0; margin-top: 20px; }
+        .chat-button { position: fixed; bottom: 25px; right: 25px; background-color: #3e2a21; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; font-size: 28px; }
+        .chat-button:hover { background-color: #d4af37; transform: scale(1.05); }
+        .chat-window { position: fixed; bottom: 100px; right: 25px; width: 380px; max-width: calc(100vw - 40px); background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; flex-direction: column; z-index: 1001; overflow: hidden; }
+        .chat-header { background: #3e2a21; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between; }
+        .chat-close { cursor: pointer; font-size: 20px; }
+        .chat-messages { height: 400px; overflow-y: auto; padding: 15px; background: #fefaf5; display: flex; flex-direction: column; gap: 12px; }
+        .message { max-width: 85%; padding: 8px 12px; border-radius: 18px; font-size: 0.9rem; line-height: 1.4; }
+        .bot-message { background: #e9e2d9; color: #2c241a; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .user-message { background: #d4af37; color: #2c241a; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-input-area { display: flex; border-top: 1px solid #e2d9cf; background: white; }
+        .chat-input { flex: 1; border: none; padding: 12px; font-family: inherit; outline: none; }
+        .chat-send { background: #3e2a21; color: white; border: none; padding: 0 15px; cursor: pointer; font-weight: bold; }
+        .chat-send:hover { background: #d4af37; color: #2c241a; }
+        .btn-small { background: #d4af37; border: none; padding: 5px 10px; border-radius: 20px; cursor: pointer; margin-top: 8px; font-size: 0.8rem; }
+        @media (max-width: 768px) { .chat-window { width: 300px; right: 10px; bottom: 80px; } }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <h1>☕ Мастерская кофемашин</h1>
+        <p>Профессиональный ремонт + интеллектуальный помощник</p>
+    </div>
+</header>
+
+<nav class="nav">
+    <div class="container">
+        <a href="#about">О нас</a>
+        <a href="#price">Прайс-лист</a>
+        <a href="#contacts">Контакты</a>
+    </div>
+</nav>
+
+<main>
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">О сервисном центре</h2>
+            <div class="about-text">
+                <p>Мы специализируемся на ремонте кофемашин более 8 лет. Работаем со всеми популярными брендами: <strong>Delonghi, Saeco, Philips, Jura, Krups, Melitta, Nivona</strong> и другими. Выезд мастера, диагностика и честные цены — наши главные принципы.</p>
+                <p>✅ Диагностика бесплатно при выполнении ремонта<br>✅ Оригинальные запчасти<br>✅ Гарантия до 12 месяцев на работы</p>
+            </div>
+            <div class="features">
+                <div class="feature-item"><div class="feature-icon">🔧</div><h3>Бесплатная диагностика</h3><p>При заказе ремонта диагностика 0 ₽</p></div>
+                <div class="feature-item"><div class="feature-icon">⏱️</div><h3>Срочный ремонт</h3><p>от 2 часов в день обращения</p></div>
+                <div class="feature-item"><div class="feature-icon">🚚</div><h3>Выезд мастера</h3><p>Бесплатно по городу</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="price" class="section">
+        <div class="container">
+            <h2 class="section-title">Прайс-лист на ремонт</h2>
+            <div class="price-table-wrapper">
+                <table class="price-table">
+                    <thead><tr><th>Вид работ</th><th>Описание</th><th>Стоимость, ₽</th>  </thead>
+                    <tbody>
+                        <tr><td>Диагностика</td><td>Полная проверка узлов</td><td>0 ₽*</td></tr>
+                        <tr><td>Чистка и декальцинация</td><td>Удаление накипи</td><td>1 500</td></tr>
+                        <tr><td>Замена помпы (насоса)</td><td>Слабый напор, шум</td><td>2 800</td></tr>
+                        <tr><td>Замена ТЭНа</td><td>Вода не греется</td><td>3 200</td></tr>
+                        <tr><td>Ремонт блока заваривания</td><td>Протечки, гуща в лотке</td><td>2 500 – 4 500</td></tr>
+                        <tr><td>Замена платы управления</td><td>Не включается, ошибки</td><td>от 3 500</td></tr>
+                        <tr><td>Ремонт кофемолки</td><td>Не мелет, сильный шум</td><td>2 200 – 3 800</td></tr>
+                        <tr><td>Комплексное ТО</td><td>Чистка, смазка, диагностика</td><td>3 900</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note">* Диагностика бесплатна при ремонте. Цены актуальны на март 2026.</div>
+        </div>
+    </section>
+
+    <section id="contacts" class="section">
+        <div class="container">
+            <h2 class="section-title">Свяжитесь с нами</h2>
+            <div class="contacts">
+                <div class="contact-info">
+                    <p><strong>📞 Телефон:</strong> <a href="tel:+79001234567">+7 (900) 123-45-67</a></p>
+                    <p><strong>✉️ Email:</strong> <a href="mailto:info@coffeemaster.ru">info@coffeemaster.ru</a></p>
+                    <p><strong>📍 Адрес:</strong> г. Москва, ул. Мастеровая, д. 15</p>
+                    <p><strong>⏰ Режим работы:</strong> Пн–Пт 10:00–20:00, Сб 11:00–17:00</p>
+                </div>
+                <div class="contact-form">
+                    <form id="callbackForm">
+                        <div class="form-group"><input type="text" id="name" placeholder="Ваше имя" required></div>
+                        <div class="form-group"><input type="tel" id="phone" placeholder="Номер телефона *" required></div>
+                        <div class="form-group"><textarea rows="3" placeholder="Модель, проблема"></textarea></div>
+                        <button type="submit" class="btn">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>© 2026 Мастерская кофемашин — ремонт кофемашин в Москве.</p>
+    </div>
+</footer>
+
+<div class="chat-button" id="chatButton">💬</div>
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <span>☕ Ассистент</span>
+        <span class="chat-close" id="chatClose">✖</span>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">Здравствуйте! Я помогу оформить заявку на ремонт кофемашины. Как вас зовут?</div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Введите ответ...">
+        <button class="chat-send" id="chatSend">➤</button>
+    </div>
+</div>
+
+<script>
+    // URL вашего веб-приложения (уже вставлен)
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxG69iydOCj_KiOqzzv-hK2LVEn7-qFyKt_qMtQJWkGg3J1JPE6tYaUBvnKaPBSLWAD/exec';
+
+    const questions = [
+        { key: 'name', text: 'Как вас зовут?' },
+        { key: 'phone', text: 'Ваш номер телефона (для связи):' },
+        { key: 'model', text: 'Модель кофемашины:' },
+        { key: 'problem', text: 'Опишите проблему:' },
+        { key: 'time', text: 'Удобное время для звонка (например, после 18:00):' }
+    ];
+
+    let currentStep = 0;
+    let userData = {};
+    let waitingForAnswer = true;
+
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    function openChat() { chatWindow.style.display = 'flex'; }
+    function closeChat() { chatWindow.style.display = 'none'; }
+    chatButton.onclick = openChat;
+    chatClose.onclick = closeChat;
+
+    function addMessage(text, isUser = false) {
+        const div = document.createElement('div');
+        div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        div.innerText = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Развёрнутые рекомендации (без ссылки)
+    function generateDetailedRecommendations(model, problem) {
+        const lowerModel = model.toLowerCase();
+        const lowerProblem = problem.toLowerCase();
+
+        let rec = "🔧 Пошаговые рекомендации для мастера:\n\n";
+
+        // 1. Общие шаги в зависимости от проблемы
+        if (lowerProblem.includes('течет') || lowerProblem.includes('протекает') || lowerProblem.includes('вода течет')) {
+            rec += "🔹 **Проблема: утечка воды**\n";
+            rec += "  - Снимите верхнюю крышку и заднюю панель.\n";
+            rec += "  - Проверьте шланги (особенно силиконовые) на трещины.\n";
+            rec += "  - Осмотрите блок заваривания: возможно, изношены уплотнительные кольца.\n";
+            rec += "  - Проверьте сливной клапан и прокладку поддона.\n";
+            if (lowerModel.includes('delonghi') || lowerModel.includes('делонги')) {
+                rec += "  - У Delonghi Magnifica частая причина течи – засор сливного клапана или износ прокладки блока заваривания.\n";
+            }
+            rec += "\n";
+        }
+        if (lowerProblem.includes('не греет') || lowerProblem.includes('холодный')) {
+            rec += "🔹 **Проблема: нет нагрева**\n";
+            rec += "  - Проверьте ТЭН мультиметром (сопротивление ~50–100 Ом).\n";
+            rec += "  - Проверьте термодатчик (NTC) – сопротивление должно меняться при нагреве.\n";
+            rec += "  - Если плата управления не подаёт питание на ТЭН – возможно, вышел из строя симистор.\n\n";
+        }
+        if (lowerProblem.includes('не качает') || lowerProblem.includes('нет давления') || lowerProblem.includes('не идет вода')) {
+            rec += "🔹 **Проблема: нет подачи воды**\n";
+            rec += "  - Проверьте помпу: при включении должно быть характерное гудение. Если нет – возможно, помпа заклинила или сгорела.\n";
+            rec += "  - Проверьте фильтр на входе воды (часто забивается накипью).\n";
+            rec += "  - Если помпа работает, но нет давления – возможно, разгерметизация системы.\n\n";
+        }
+        if (lowerProblem.includes('шумит') || lowerProblem.includes('гудит')) {
+            rec += "🔹 **Проблема: шум**\n";
+            rec += "  - Определите источник: помпа (вибрация), кофемолка (металлический скрежет) или блок заваривания.\n";
+            rec += "  - Если помпа гудит, но не качает – замена помпы.\n";
+            rec += "  - Шум от кофемолки часто вызван износом подшипников или попаданием камней.\n\n";
+        }
+        if (lowerProblem.includes('не мелет') || lowerProblem.includes('кофе не молет')) {
+            rec += "🔹 **Проблема: кофемолка не работает**\n";
+            rec += "  - Проверьте, подаётся ли напряжение на двигатель кофемолки.\n";
+            rec += "  - Разберите кофемолку, проверьте, нет ли заклинивания жерновов.\n";
+            rec += "  - Возможно, требуется регулировка помола или замена двигателя.\n\n";
+        }
+        if (lowerProblem.includes('ошибка') || lowerProblem.includes('код')) {
+            rec += "🔹 **Проблема: ошибка на дисплее**\n";
+            rec += "  - Сначала выполните сброс: выключите из розетки на 5 минут.\n";
+            rec += "  - Если ошибка повторяется – проверьте соответствующие датчики (уровня воды, температуры).\n";
+            rec += "  - Для многих моделей код ошибки расшифровывается в сервисной документации.\n\n";
+        }
+        if (lowerProblem.includes('не включается')) {
+            rec += "🔹 **Проблема: не включается**\n";
+            rec += "  - Проверьте предохранитель на плате (обычно 2–5 А).\n";
+            rec += "  - Проверьте блок питания: есть ли 5В и 12В на выходе.\n";
+            rec += "  - Если питание есть, возможно, проблема в процессоре (перепрошивка или замена платы).\n\n";
+        }
+
+        // 2. Специфические советы по моделям
+        if (lowerModel.includes('delonghi') || lowerModel.includes('делонги')) {
+            rec += "🔹 **Особенности Delonghi:**\n";
+            rec += "  - Частая неисправность: засор сливного клапана (проявляется течью в лоток для капель).\n";
+            rec += "  - Блок заваривания легко вынимается – проверьте его подвижность и смазку.\n";
+            rec += "  - Для Magnifica S: если вода течёт в отсек для жмыха, скорее всего проблема в прокладке поршня блока заваривания.\n\n";
+        }
+        if (lowerModel.includes('saeco') || lowerModel.includes('сиеко')) {
+            rec += "🔹 **Особенности Saeco:**\n";
+            rec += "  - У многих моделей блок заваривания съёмный, но требует регулярной смазки.\n";
+            rec += "  - При течи часто выходит из строя уплотнительное кольцо заварочного блока.\n\n";
+        }
+        if (lowerModel.includes('philips')) {
+            rec += "🔹 **Особенности Philips:**\n";
+            rec += "  - Аналогичны Saeco (многие модели производятся на одной платформе).\n";
+            rec += "  - Внимание на блок заваривания – его заклинивание частая причина ошибок.\n\n";
+        }
+
+        // Если нет специфических подсказок, добавим общие
+        if (!rec.includes("Особенности")) {
+            rec += "🔹 **Общие рекомендации:**\n";
+            rec += "  - Сначала визуальный осмотр: нет ли трещин, подтёков, повреждённых проводов.\n";
+            rec += "  - Проверьте все разъёмы и датчики.\n";
+            rec += "  - Если неисправность не очевидна, обратитесь к сервисной документации или видеоразборкам.\n\n";
+        }
+
+        // Убираем блок "Полезные ссылки", так как ссылка будет в отдельном столбце H
+        return rec;
+    }
+
+    function makeSearchLink(model, problem) {
+        const query = encodeURIComponent(`ремонт разборка ${model} ${problem}`);
+        return `https://www.youtube.com/results?search_query=${query}`;
+    }
+
+    async function sendToGoogleSheets(data) {
+        try {
+            await fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log('Данные отправлены в Google Sheets');
+        } catch (error) {
+            console.error('Ошибка отправки:', error);
+        }
+    }
+
+    function showCompletionActions() {
+        const data = userData;
+        const recommendations = generateDetailedRecommendations(data.model, data.problem);
+        const searchLink = makeSearchLink(data.model, data.problem);
+
+        sendToGoogleSheets({
+            ...userData,
+            recommendations: recommendations,
+            searchLink: searchLink
+        });
+
+        addMessage("Спасибо, ваша заявка принята! Мастер свяжется с вами в указанное время.", false);
+
+        const newBtn = document.createElement('button');
+        newBtn.innerText = '🔄 Новая заявка';
+        newBtn.className = 'btn-small';
+        newBtn.onclick = () => resetConversation();
+        chatMessages.appendChild(newBtn);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function resetConversation() {
+        currentStep = 0;
+        userData = {};
+        waitingForAnswer = true;
+        while (chatMessages.children.length > 0) chatMessages.removeChild(chatMessages.firstChild);
+        addMessage('Здравствуйте! Я помогу оформить заявку на ремонт кофемашины. Как вас зовут?', false);
+    }
+
+    function processUserInput(answer) {
+        if (!waitingForAnswer) return;
+        if (currentStep === 0) {
+            if (answer.trim() === '') {
+                addMessage('Пожалуйста, введите имя.', false);
+                return;
+            }
+            userData.name = answer.trim();
+            addMessage(answer, true);
+            currentStep++;
+            addMessage(questions[currentStep].text, false);
+            return;
+        }
+        if (currentStep < questions.length) {
+            const key = questions[currentStep].key;
+            if (answer.trim() === '') {
+                addMessage(`Поле "${questions[currentStep].text}" не может быть пустым.`, false);
+                return;
+            }
+            userData[key] = answer.trim();
+            addMessage(answer, true);
+            currentStep++;
+            if (currentStep < questions.length) {
+                addMessage(questions[currentStep].text, false);
+            } else {
+                waitingForAnswer = false;
+                showCompletionActions();
+            }
+            return;
+        }
+    }
+
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        if (text === '') return;
+        chatInput.value = '';
+        processUserInput(text);
+    }
+
+    chatSend.onclick = sendMessage;
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    const callbackForm = document.getElementById('callbackForm');
+    if (callbackForm) {
+        callbackForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Спасибо! Мы свяжемся с вами.');
+            callbackForm.reset();
+        });
+    }
+</script>
+</body>
+</html>
