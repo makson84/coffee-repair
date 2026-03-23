@@ -30,9 +30,10 @@
         .price-table td:last-child, .price-table th:last-child { text-align: right; font-weight: 600; }
         .note { margin-top: 20px; font-size: 0.9rem; color: #6b5a4a; text-align: center; background: #f0ebe4; padding: 12px; border-radius: 30px; }
         .contacts { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; background: #fff; padding: 30px; border-radius: 24px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .contact-info { flex: 1; }
+        .contact-info { flex: 1; min-width: 250px; }
         .contact-info p { margin-bottom: 15px; font-size: 1.1rem; }
-        .contact-form { flex: 1; }
+        .contact-form { flex: 1; min-width: 250px; }
+        .map-container { flex: 1; min-width: 250px; margin-top: 20px; }
         .form-group { margin-bottom: 15px; }
         .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd2c4; border-radius: 30px; font-family: inherit; background: #fefaf5; }
         .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #d4af37; box-shadow: 0 0 0 2px rgba(212,175,55,0.2); }
@@ -53,7 +54,8 @@
         .chat-send { background: #3e2a21; color: white; border: none; padding: 0 15px; cursor: pointer; font-weight: bold; }
         .chat-send:hover { background: #d4af37; color: #2c241a; }
         .btn-small { background: #d4af37; border: none; padding: 5px 10px; border-radius: 20px; cursor: pointer; margin-top: 8px; font-size: 0.8rem; }
-        @media (max-width: 768px) { .chat-window { width: 300px; right: 10px; bottom: 80px; } }
+        iframe { width: 100%; height: 250px; border: 0; border-radius: 16px; }
+        @media (max-width: 768px) { .chat-window { width: 300px; right: 10px; bottom: 80px; } .contacts { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -96,14 +98,14 @@
                 <table class="price-table">
                     <thead><tr><th>Вид работ</th><th>Описание</th><th>Стоимость, ₽</th> </thead>
                     <tbody>
-                        <tr><td>Диагностика</td><td>Полная проверка узлов</td><td>0 ₽*</td> </tr>
-                        <tr><td>Чистка и декальцинация</td><td>Удаление накипи</td><td>1 500</td> </tr>
-                        <tr><td>Замена помпы (насоса)</td><td>Слабый напор, шум</td><td>2 800</td> </tr>
-                        <tr><td>Замена ТЭНа</td><td>Вода не греется</td><td>3 200</td> </tr>
-                        <tr><td>Ремонт блока заваривания</td><td>Протечки, гуща в лотке</td><td>2 500 – 4 500</td> </tr>
-                        <tr><td>Замена платы управления</td><td>Не включается, ошибки</td><td>от 3 500</td> </tr>
-                        <tr><td>Ремонт кофемолки</td><td>Не мелет, сильный шум</td><td>2 200 – 3 800</td> </tr>
-                        <tr><td>Комплексное ТО</td><td>Чистка, смазка, диагностика</td><td>3 900</td> </tr>
+                         <tr><td>Диагностика</td><td>Полная проверка узлов</td><td>0 ₽*</td></tr>
+                         <tr><td>Чистка и декальцинация</td><td>Удаление накипи</td><td>1 500</td></tr>
+                         <tr><td>Замена помпы (насоса)</td><td>Слабый напор, шум</td><td>2 800</td></tr>
+                         <tr><td>Замена ТЭНа</td><td>Вода не греется</td><td>3 200</td></tr>
+                         <tr><td>Ремонт блока заваривания</td><td>Протечки, гуща в лотке</td><td>2 500 – 4 500</td></tr>
+                         <tr><td>Замена платы управления</td><td>Не включается, ошибки</td><td>от 3 500</td></tr>
+                         <tr><td>Ремонт кофемолки</td><td>Не мелет, сильный шум</td><td>2 200 – 3 800</td></tr>
+                         <tr><td>Комплексное ТО</td><td>Чистка, смазка, диагностика</td><td>3 900</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -129,6 +131,10 @@
                         <button type="submit" class="btn">Отправить заявку</button>
                     </form>
                 </div>
+            </div>
+            <!-- Карта -->
+            <div class="map-container" style="margin-top: 30px;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1999.6874430220818!2d30.36811327713628!3d59.95252111876496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46963109e8a9e1ef%3A0x5c2b3a5e8d5c8f9!2z0JHQvtC70YzRiNC10L7RhdGC0LjQvdGB0LrQuNC5INC_0YAuLCAxLCDQodCw0L3QutGCLdCf0LXRgtC10YDQsdGD0YDQsywgMTk1MjQ3!5e0!3m2!1sru!2sru!4v1711223356789!5m2!1sru!2sru" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -396,16 +402,6 @@
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
 </script>
 </body>
 </html>
