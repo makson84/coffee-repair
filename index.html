@@ -61,7 +61,7 @@
 <header class="header">
     <div class="container">
         <h1>☕ Мастерская кофемашин</h1>
-        <p>Профессиональный ремонт + интеллектуальный помощник</p>
+        <p>Профессиональный ремонт кофемашин любых брендов</p>
     </div>
 </header>
 
@@ -94,16 +94,16 @@
             <h2 class="section-title">Прайс-лист на ремонт</h2>
             <div class="price-table-wrapper">
                 <table class="price-table">
-                    <thead><tr><th>Вид работ</th><th>Описание</th><th>Стоимость, ₽</th>  </thead>
+                    <thead><tr><th>Вид работ</th><th>Описание</th><th>Стоимость, ₽</th> </thead>
                     <tbody>
-                        <tr><td>Диагностика</td><td>Полная проверка узлов</td><td>0 ₽*</td></tr>
-                        <tr><td>Чистка и декальцинация</td><td>Удаление накипи</td><td>1 500</td></tr>
-                        <tr><td>Замена помпы (насоса)</td><td>Слабый напор, шум</td><td>2 800</td></tr>
-                        <tr><td>Замена ТЭНа</td><td>Вода не греется</td><td>3 200</td></tr>
-                        <tr><td>Ремонт блока заваривания</td><td>Протечки, гуща в лотке</td><td>2 500 – 4 500</td></tr>
-                        <tr><td>Замена платы управления</td><td>Не включается, ошибки</td><td>от 3 500</td></tr>
-                        <tr><td>Ремонт кофемолки</td><td>Не мелет, сильный шум</td><td>2 200 – 3 800</td></tr>
-                        <tr><td>Комплексное ТО</td><td>Чистка, смазка, диагностика</td><td>3 900</td></tr>
+                        <tr><td>Диагностика</td><td>Полная проверка узлов</td><td>0 ₽*</td> </tr>
+                        <tr><td>Чистка и декальцинация</td><td>Удаление накипи</td><td>1 500</td> </tr>
+                        <tr><td>Замена помпы (насоса)</td><td>Слабый напор, шум</td><td>2 800</td> </tr>
+                        <tr><td>Замена ТЭНа</td><td>Вода не греется</td><td>3 200</td> </tr>
+                        <tr><td>Ремонт блока заваривания</td><td>Протечки, гуща в лотке</td><td>2 500 – 4 500</td> </tr>
+                        <tr><td>Замена платы управления</td><td>Не включается, ошибки</td><td>от 3 500</td> </tr>
+                        <tr><td>Ремонт кофемолки</td><td>Не мелет, сильный шум</td><td>2 200 – 3 800</td> </tr>
+                        <tr><td>Комплексное ТО</td><td>Чистка, смазка, диагностика</td><td>3 900</td> </tr>
                     </tbody>
                 </table>
             </div>
@@ -116,16 +116,16 @@
             <h2 class="section-title">Свяжитесь с нами</h2>
             <div class="contacts">
                 <div class="contact-info">
-                    <p><strong>📞 Телефон:</strong> <a href="tel:+79001234567">+7 (900) 123-45-67</a></p>
-                    <p><strong>✉️ Email:</strong> <a href="mailto:info@coffeemaster.ru">info@coffeemaster.ru</a></p>
-                    <p><strong>📍 Адрес:</strong> г. Москва, ул. Мастеровая, д. 15</p>
+                    <p><strong>📞 Телефон:</strong> <a href="tel:+79046027923">+7 (904) 602-79-23</a></p>
+                    <p><strong>✉️ Email:</strong> <a href="mailto:maksimkurakin78@gmail.com">maksimkurakin78@gmail.com</a></p>
+                    <p><strong>📍 Адрес:</strong> г. Санкт-Петербург, Большеохтинский пр., д. 1</p>
                     <p><strong>⏰ Режим работы:</strong> Пн–Пт 10:00–20:00, Сб 11:00–17:00</p>
                 </div>
                 <div class="contact-form">
                     <form id="callbackForm">
-                        <div class="form-group"><input type="text" id="name" placeholder="Ваше имя" required></div>
-                        <div class="form-group"><input type="tel" id="phone" placeholder="Номер телефона *" required></div>
-                        <div class="form-group"><textarea rows="3" placeholder="Модель, проблема"></textarea></div>
+                        <div class="form-group"><input type="text" id="formName" placeholder="Ваше имя" required></div>
+                        <div class="form-group"><input type="tel" id="formPhone" placeholder="Номер телефона *" required></div>
+                        <div class="form-group"><textarea id="formMessage" rows="3" placeholder="Модель кофемашины, описание проблемы"></textarea></div>
                         <button type="submit" class="btn">Отправить заявку</button>
                     </form>
                 </div>
@@ -136,7 +136,7 @@
 
 <footer class="footer">
     <div class="container">
-        <p>© 2026 Мастерская кофемашин — ремонт кофемашин в Москве.</p>
+        <p>© 2026 Мастерская кофемашин — ремонт кофемашин в Санкт-Петербурге.</p>
     </div>
 </footer>
 
@@ -156,49 +156,26 @@
 </div>
 
 <script>
-    // URL вашего веб-приложения (уже вставлен)
     const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxG69iydOCj_KiOqzzv-hK2LVEn7-qFyKt_qMtQJWkGg3J1JPE6tYaUBvnKaPBSLWAD/exec';
 
-    const questions = [
-        { key: 'name', text: 'Как вас зовут?' },
-        { key: 'phone', text: 'Ваш номер телефона (для связи):' },
-        { key: 'model', text: 'Модель кофемашины:' },
-        { key: 'problem', text: 'Опишите проблему:' },
-        { key: 'time', text: 'Удобное время для звонка (например, после 18:00):' }
-    ];
-
-    let currentStep = 0;
-    let userData = {};
-    let waitingForAnswer = true;
-
-    const chatButton = document.getElementById('chatButton');
-    const chatWindow = document.getElementById('chatWindow');
-    const chatClose = document.getElementById('chatClose');
-    const chatMessages = document.getElementById('chatMessages');
-    const chatInput = document.getElementById('chatInput');
-    const chatSend = document.getElementById('chatSend');
-
-    function openChat() { chatWindow.style.display = 'flex'; }
-    function closeChat() { chatWindow.style.display = 'none'; }
-    chatButton.onclick = openChat;
-    chatClose.onclick = closeChat;
-
-    function addMessage(text, isUser = false) {
-        const div = document.createElement('div');
-        div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-        div.innerText = text;
-        chatMessages.appendChild(div);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+    async function sendToGoogleSheets(data) {
+        try {
+            await fetch(GOOGLE_SHEETS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log('Данные отправлены в Google Sheets');
+        } catch (error) {
+            console.error('Ошибка отправки:', error);
+        }
     }
 
-    // Развёрнутые рекомендации (без ссылки)
     function generateDetailedRecommendations(model, problem) {
         const lowerModel = model.toLowerCase();
         const lowerProblem = problem.toLowerCase();
-
         let rec = "🔧 Пошаговые рекомендации для мастера:\n\n";
-
-        // 1. Общие шаги в зависимости от проблемы
         if (lowerProblem.includes('течет') || lowerProblem.includes('протекает') || lowerProblem.includes('вода течет')) {
             rec += "🔹 **Проблема: утечка воды**\n";
             rec += "  - Снимите верхнюю крышку и заднюю панель.\n";
@@ -247,7 +224,6 @@
             rec += "  - Если питание есть, возможно, проблема в процессоре (перепрошивка или замена платы).\n\n";
         }
 
-        // 2. Специфические советы по моделям
         if (lowerModel.includes('delonghi') || lowerModel.includes('делонги')) {
             rec += "🔹 **Особенности Delonghi:**\n";
             rec += "  - Частая неисправность: засор сливного клапана (проявляется течью в лоток для капель).\n";
@@ -265,7 +241,6 @@
             rec += "  - Внимание на блок заваривания – его заклинивание частая причина ошибок.\n\n";
         }
 
-        // Если нет специфических подсказок, добавим общие
         if (!rec.includes("Особенности")) {
             rec += "🔹 **Общие рекомендации:**\n";
             rec += "  - Сначала визуальный осмотр: нет ли трещин, подтёков, повреждённых проводов.\n";
@@ -273,7 +248,6 @@
             rec += "  - Если неисправность не очевидна, обратитесь к сервисной документации или видеоразборкам.\n\n";
         }
 
-        // Убираем блок "Полезные ссылки", так как ссылка будет в отдельном столбце H
         return rec;
     }
 
@@ -282,33 +256,87 @@
         return `https://www.youtube.com/results?search_query=${query}`;
     }
 
-    async function sendToGoogleSheets(data) {
-        try {
-            await fetch(GOOGLE_SHEETS_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            console.log('Данные отправлены в Google Sheets');
-        } catch (error) {
-            console.error('Ошибка отправки:', error);
-        }
+    const callbackForm = document.getElementById('callbackForm');
+    if (callbackForm) {
+        callbackForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('formName').value.trim();
+            const phone = document.getElementById('formPhone').value.trim();
+            const message = document.getElementById('formMessage').value.trim();
+
+            if (!name || !phone) {
+                alert('Пожалуйста, укажите имя и телефон.');
+                return;
+            }
+
+            const model = message.split('\n')[0] || '';
+            const problem = message.split('\n').slice(1).join(' ') || message;
+
+            const recommendations = generateDetailedRecommendations(model, problem);
+            const searchLink = makeSearchLink(model, problem);
+
+            const data = {
+                name: name,
+                phone: phone,
+                model: model,
+                problem: problem,
+                time: 'не указано',
+                recommendations: recommendations,
+                searchLink: searchLink
+            };
+
+            await sendToGoogleSheets(data);
+            alert('Спасибо, ваша заявка принята! Мастер свяжется с вами.');
+            callbackForm.reset();
+        });
+    }
+
+    const questions = [
+        { key: 'name', text: 'Как вас зовут?' },
+        { key: 'phone', text: 'Ваш номер телефона (для связи):' },
+        { key: 'model', text: 'Модель кофемашины:' },
+        { key: 'problem', text: 'Опишите проблему:' },
+        { key: 'time', text: 'Удобное время для звонка (например, после 18:00):' }
+    ];
+
+    let currentStep = 0;
+    let userData = {};
+    let waitingForAnswer = true;
+
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    function openChat() { chatWindow.style.display = 'flex'; }
+    function closeChat() { chatWindow.style.display = 'none'; }
+    chatButton.onclick = openChat;
+    chatClose.onclick = closeChat;
+
+    function addMessage(text, isUser = false) {
+        const div = document.createElement('div');
+        div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        div.innerText = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendChatDataToSheet(data) {
+        const recommendations = generateDetailedRecommendations(data.model, data.problem);
+        const searchLink = makeSearchLink(data.model, data.problem);
+        await sendToGoogleSheets({
+            ...data,
+            recommendations: recommendations,
+            searchLink: searchLink
+        });
     }
 
     function showCompletionActions() {
         const data = userData;
-        const recommendations = generateDetailedRecommendations(data.model, data.problem);
-        const searchLink = makeSearchLink(data.model, data.problem);
-
-        sendToGoogleSheets({
-            ...userData,
-            recommendations: recommendations,
-            searchLink: searchLink
-        });
-
+        sendChatDataToSheet(data);
         addMessage("Спасибо, ваша заявка принята! Мастер свяжется с вами в указанное время.", false);
-
         const newBtn = document.createElement('button');
         newBtn.innerText = '🔄 Новая заявка';
         newBtn.className = 'btn-small';
@@ -376,15 +404,6 @@
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
             return m;
-        });
-    }
-
-    const callbackForm = document.getElementById('callbackForm');
-    if (callbackForm) {
-        callbackForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Спасибо! Мы свяжемся с вами.');
-            callbackForm.reset();
         });
     }
 </script>
